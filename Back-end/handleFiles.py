@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 import manager, saveAndLoad
 import json
+import shutil
 
 
 def create_folder(root: str):
@@ -28,6 +29,10 @@ def is_folder(item):
 
 def get_file_data_as_dict(path: str):
     try:
-        return json.loads(saveAndLoad.load_file(path))
+        return (json.loads(saveAndLoad.load_file(path)), True)
     except:
         print('wrong json syntax')
+        return (None, False)
+    
+def move_file(from_path: str, to_path: str):
+    shutil.copyfile(from_path, to_path)

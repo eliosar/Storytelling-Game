@@ -1,19 +1,19 @@
 Story-Ordner Sceleton is as follows:
-Story:
-    Speekers:
+Ordner "Story":
+    Ordner "Speekers":
         Images of all speekers
-    Icons:
+    Order "Icons":
         Images of all Icons
-    Scenes:
-        Scene-name:
-            Background Image as .png
-            Textfile for "choice(1..n)" as .json:
+    Ordner "Scenes":
+        Ordner "Scenename":
+            Background Image as "background.png"
+            Textfile for "choice(1..n).json":
                 "choicename": as string
                 next "scenename": as string
-            Textfile for Status as .json:
+            Textfile for "status.json":
                 "status": "Beginning"/"Middle"/"End" of this story
-            Texts:
-                Textfile for "Text(1..n)" as .json:
+            Ordner "Texts":
+                Textfile for "text(1..n).json":
                     "text": is the text
                     "speekername": is the name of the speeker
 
