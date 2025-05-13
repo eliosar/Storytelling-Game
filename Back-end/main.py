@@ -1,4 +1,3 @@
-# check if at least one scene is available/ready before anything alse
 import manager, addScene
 
 manager.create_folder_sceleton()
