@@ -13,7 +13,7 @@ def create_folder(root: str):
 def does_exist(path: str):
     return os.path.exists(path)
 
-def get_file_name_from_path(path: str):
+def get_name_from_path(path: str):
     return os.path.basename(path)
 
 def getItems(root: str):

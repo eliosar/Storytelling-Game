@@ -16,6 +16,11 @@ def addScene():
             finished = manager.is_dump_file_right()
 
             if finished == True:
-                manager.add_new_scene_from_dump_file()
-            else:
+                finished = manager.is_dump_scenename_unique()
+                if finished == True:
+                    print('The folder follows the rules')
+                    decision = input('do you want to move it to the scenes-folder? (y/n)')
+                    manager.add_new_scene_from_dump_file()
+            
+            if finished == False:
                 print('please try to go over the problems and correct them')

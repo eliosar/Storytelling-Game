@@ -45,7 +45,7 @@ def is_dump_file_right():
             usable_items = []
 
             for item in items:
-                name = handleFiles.get_file_name_from_path(item)
+                name = handleFiles.get_name_from_path(item)
                 print('------------------ going through "' + name + '" ------------------')
 
                 if name == 'background.png':
@@ -97,11 +97,24 @@ def is_dump_file_right():
                 print('usable items were: ' + usable_items)
     return False
 
+def is_dump_scenename_unique():
+    dump_items = handleFiles.getItems(DUMP_ROOT_FOLDER)
+    dump_scenename = handleFiles.get_name_from_path(dump_items[0])
+
+    items = handleFiles.getItems(join_strings((STORY_ROOT_FOLDER, SCENES_ROOT_FOLDER)))
+    for item in items:
+        name = handleFiles.get_name_from_path(item)
+        if name == dump_scenename:
+            return False
+    
+    return True
+
+
 def add_new_scene_from_dump_file():
     root = DUMP_ROOT_FOLDER
     items = handleFiles.getItems(root)
     from_path = join_strings(root, items[0])
 
-    to_path = join_strings((STORY_ROOT_FOLDER, SCENES_ROOT_FOLDER, handleFiles.get_file_name_from_path(from_path)))
+    to_path = join_strings((STORY_ROOT_FOLDER, SCENES_ROOT_FOLDER, handleFiles.get_name_from_path(from_path)))
 
     handleFiles.move_file(from_path, to_path)
