@@ -2,7 +2,7 @@ import handleFiles
 
 def save_file(data: list, file_path:str):
     print('there is nothing here currently')
-    # file_name = handleFiles.get_file_name_from_path(file_path)
+    # file_name = handleFiles.get_name_from_path(file_path)
 
     # print('saving to: ' + file_name)
     # with open(file_path, 'wb') as file:
@@ -12,7 +12,7 @@ def save_file(data: list, file_path:str):
 
 
 def load_file(file_path:str):
-    file_name = handleFiles.get_file_name_from_path(file_path)
+    file_name = handleFiles.get_name_from_path(file_path)
     data = []
     
     with open(file_path, 'rb') as file:
@@ -21,5 +21,3 @@ def load_file(file_path:str):
     print(file_name + ' loaded')
 
     return data
-
-print(load_file('lol.json')["1"])

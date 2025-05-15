@@ -20,7 +20,7 @@ def getItems(root: str):
     res = []
 
     for name in os.listdir(root):
-        res.append(manager.join_strings(root, name))
+        res.append(manager.join_strings((root, '/', name)))
 
     return res
 
