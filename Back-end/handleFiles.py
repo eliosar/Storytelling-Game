@@ -20,7 +20,7 @@ def getItems(root: str):
     res = []
 
     for name in os.listdir(root):
-        res.append(manager.join_strings((root, '/', name)))
+        res.append(manager.join_paths((root, name)))
 
     return res
 
@@ -31,8 +31,8 @@ def get_file_data_as_dict(path: str):
     try:
         return (json.loads(saveAndLoad.load_file(path)), True)
     except:
-        print('wrong json syntax')
+        print('Wrong json syntax')
         return (None, False)
     
 def move_file(from_path: str, to_path: str):
-    shutil.copyfile(from_path, to_path)
+    shutil.move(from_path, to_path)

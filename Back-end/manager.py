@@ -2,6 +2,7 @@ import handleFiles
 
 STORY_ROOT_FOLDER = 'Story'
 DUMP_ROOT_FOLDER = 'Dump'
+DUMMIES_ROOT_FOLDER = 'Dummies'
 
 ICONS_FOLDER = 'Icons'
 SPEEKERS_FOLDER = 'Speekers'
@@ -16,20 +17,30 @@ def join_strings(inp: tuple):
 
     return res
 
-def create_folder_sceleton():
-    handleFiles.create_folder(join_strings((STORY_ROOT_FOLDER, SCENES_ROOT_FOLDER)))
-    handleFiles.create_folder(join_strings((STORY_ROOT_FOLDER, SPEEKERS_FOLDER)))
-    handleFiles.create_folder(join_strings((STORY_ROOT_FOLDER, ICONS_FOLDER)))
+def join_paths(inp: tuple):
+    res = []
 
-    handleFiles.create_folder(join_strings((DUMP_ROOT_FOLDER)))
+    for i in range(len(inp)):
+        res.append(inp[i])
+        if i != len(inp) - 1:
+            res.append('/')
+
+    return join_strings(res)
+
+def create_folder_sceleton():
+    handleFiles.create_folder(join_paths((STORY_ROOT_FOLDER, SCENES_ROOT_FOLDER)))
+    handleFiles.create_folder(join_paths((STORY_ROOT_FOLDER, SPEEKERS_FOLDER)))
+    handleFiles.create_folder(join_paths((STORY_ROOT_FOLDER, ICONS_FOLDER)))
+
+    handleFiles.create_folder(DUMP_ROOT_FOLDER)
+    handleFiles.create_folder(DUMMIES_ROOT_FOLDER)
 
 def is_at_least_one_scene_available():
-    path = join_strings((STORY_ROOT_FOLDER, SCENES_ROOT_FOLDER))
+    path = join_paths((STORY_ROOT_FOLDER, SCENES_ROOT_FOLDER))
     itemsInOrdner = handleFiles.getItems(path)
 
     if len(itemsInOrdner) > 0:        
-        path = join_strings((path, handleFiles.getItems(path)[0]))
-        return handleFiles.is_folder(path) == True
+        return handleFiles.is_folder(handleFiles.getItems(path)[0]) == True
     
     return False
 
@@ -37,78 +48,84 @@ def is_dump_file_right():
     root = DUMP_ROOT_FOLDER
     items = handleFiles.getItems(root)
 
-    if len(items) > 0:
+    if len(items) == 0:
+        print('Found nothing in the dump-folder')
+    else:
         if handleFiles.is_folder(items[0]):
             root = items[0] # now the scene-folder
             items = handleFiles.getItems(root)
+
+            is_folder_empty = False
+            usable_items = []
+            item_count = 0
+            subtract_count_because_of_wanted_folder = 0
             
             if len(items) == 0:
-                print('found nothing in the scene-folder')
+                is_folder_empty = True
+                print('Found nothing in the Scene-folder')
             else:
-                usable_items = []
+                item_count += len(items)
 
                 for item in items:
                     name = handleFiles.get_name_from_path(item)
-                    print('------------------ going through "' + name + '" ------------------')
+                    print('------------------ Going through "' + name + '" ------------------')
 
                     if name == 'background.png':
                         usable_items.append(name)
 
                     if name.count('choice') > 0 and name.count('.json') > 0:
-                        (data, is_usable) = handleFiles.get_file_data_as_dict(item)
-                        if is_usable:
-                            if 'choicename' not in data or type(data['choicename']) != str:
-                                print('found no topic "choicename"')
-                                is_usable = False
-                            if 'scenename' not in data or type(data['scenename']) != str:
-                                print('found no topic "scenename"')
-                                is_usable = False
-                            
-                            if is_usable == True:
-                                usable_items.append(name)
+                        handle_dict_for_keys_and_str(['choicename', 'scenename'], usable_items, name, item)
                     
                     if name == 'status.json':
-                        (data, is_usable) = handleFiles.get_file_data_as_dict(item)
-                        if is_usable == True:
-                            if 'status' not in data or type(data['status']) != str:
-                                print('found no topic "status"')
-                                is_usable = False
-                            
-                            if is_usable == True:
-                                usable_items.append(name)
+                        handle_dict_for_keys_and_str(['status'], usable_items, name, item)
                     
                     if name == 'Texts':
+                        subtract_count_because_of_wanted_folder += 1
                         temp_items = handleFiles.getItems(item)
                         
-                        for temp_item in temp_items:
-                            (data, is_usable) = handleFiles.get_file_data_as_dict(temp_item)
+                        if len(temp_items) == 0:
+                            is_folder_empty = True
+                            print('Found nothing in the Texts-folder')
+                        else:
+                            item_count += len(temp_items)
 
-                            if is_usable:
-                                if 'text' not in data or type(data['text']) != str:
-                                    print('found no topic "text"')
-                                    is_usable = False
-                                if 'speekername' not in data or type(data['speekername']) != str:
-                                    print('found no topic "speekername"')
-                                    is_usable = False
-                                
-                                if is_usable == True:
-                                    usable_items.append(name)
+                            for temp_item in temp_items:
+                                name = handleFiles.get_name_from_path(temp_item)
 
+                                print('------------------ Going through "' + name + '" ------------------')
+
+                                if name.count('text') > 0  and name.count('.json') > 0:
+                                    handle_dict_for_keys_and_str(['text', 'speekername'], usable_items, name, temp_item)
                 
-                print('\nusable items were: ' + str(usable_items))
+                print('\nUsable items were: ' + str(usable_items))
+                if len(usable_items) < (item_count - subtract_count_because_of_wanted_folder): # have to substract every wanted folder (e.g. "Texts"-folder) inside the scenes folder
+                    print('Not every element in the Scene-folder had been usable')
+
+            if len(usable_items) == (item_count - subtract_count_because_of_wanted_folder) and is_folder_empty == False:
+                return True
         else:
-            print('found no folder as first item in the dump-folder')
-    else:
-        print('found nothing in the dump-folder')
+            print('Found no folder as first item in the dump-folder')
     print('')
 
     return False
+
+def handle_dict_for_keys_and_str(keys: str, usable_items: list, name: str, item_path: str):
+    (data, is_usable) = handleFiles.get_file_data_as_dict(item_path)
+
+    if is_usable:
+        for key in keys:
+            if key not in data or type(data[key]) != str:
+                print('Found no topic "' + key + '"')
+                is_usable = False
+        
+    if is_usable == True:
+        usable_items.append(name)
 
 def is_dump_scenename_unique():
     dump_items = handleFiles.getItems(DUMP_ROOT_FOLDER)
     dump_scenename = handleFiles.get_name_from_path(dump_items[0])
 
-    items = handleFiles.getItems(join_strings((STORY_ROOT_FOLDER, SCENES_ROOT_FOLDER)))
+    items = handleFiles.getItems(join_paths((STORY_ROOT_FOLDER, SCENES_ROOT_FOLDER)))
     for item in items:
         name = handleFiles.get_name_from_path(item)
         if name == dump_scenename:
@@ -120,8 +137,8 @@ def is_dump_scenename_unique():
 def add_new_scene_from_dump_file():
     root = DUMP_ROOT_FOLDER
     items = handleFiles.getItems(root)
-    from_path = join_strings((root, items[0]))
+    from_path = items[0]
 
-    to_path = join_strings((STORY_ROOT_FOLDER, SCENES_ROOT_FOLDER, handleFiles.get_name_from_path(from_path)))
+    to_path = join_paths((STORY_ROOT_FOLDER, SCENES_ROOT_FOLDER, handleFiles.get_name_from_path(from_path)))
 
     handleFiles.move_file(from_path, to_path)
