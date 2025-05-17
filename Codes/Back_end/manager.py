@@ -1,4 +1,4 @@
-import handleFiles
+import Back_end.handleFiles as handleFiles
 
 STORY_ROOT_FOLDER = 'Story'
 DUMP_ROOT_FOLDER = 'Dump'
@@ -142,3 +142,6 @@ def add_new_scene_from_dump_file():
     to_path = join_paths((STORY_ROOT_FOLDER, SCENES_ROOT_FOLDER, handleFiles.get_name_from_path(from_path)))
 
     handleFiles.move_file(from_path, to_path)
+
+def get_data_from_scene(scene_name: str):
+    return "0"
