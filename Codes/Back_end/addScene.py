@@ -1,4 +1,4 @@
-import Back_end.manager as manager
+from Back_end import manager
 
 def addScene():
     finished = False

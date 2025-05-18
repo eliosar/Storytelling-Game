@@ -6,7 +6,7 @@ Ordner "Story":
         Images of all Icons
     Ordner "Scenes":
         Ordner "[Scenename]":
-            Background Image as "background.png"
+            Background Image as "background.jpeg"
             Ordner "Choices":
                 Textfile for "choice(1..n).json":
                     "choicename": as string

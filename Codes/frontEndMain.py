@@ -1,7 +1,7 @@
 from Front_end import mainFrame, sceneFrame
 from flask import Flask
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='Front_end/templates/')
 
 @app.route('/')
 def main_view():
@@ -14,4 +14,5 @@ def scene_view(sceneName: str):
 def start():
     app.run(debug=True)
 
-start()
+if __name__ == '__main__':
+    start()

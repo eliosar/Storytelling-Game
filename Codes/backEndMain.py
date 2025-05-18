@@ -1,5 +1,4 @@
-from Back_end import manager
-import addScene
+from Back_end import manager, addScene
 
 manager.create_folder_sceleton()
 

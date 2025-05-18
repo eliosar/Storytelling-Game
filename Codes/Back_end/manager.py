@@ -1,4 +1,4 @@
-import Back_end.handleFiles as handleFiles
+from Back_end import handleFiles
 
 STORY_ROOT_FOLDER = 'Story'
 DUMP_ROOT_FOLDER = 'Dump'
@@ -70,7 +70,7 @@ def is_dump_file_right():
                     name = handleFiles.get_name_from_path(item)
                     print('------------------ Going through "' + name + '" ------------------')
 
-                    if name == 'background.png':
+                    if name == 'background.jpeg':
                         usable_items.append(name)
 
                     if name == 'Choices':
@@ -161,9 +161,11 @@ def add_new_scene_from_dump_file():
 def get_path_to_file_in_scene(scene_name: str, file_name: str):
     return join_paths((STORY_ROOT_FOLDER, SCENES_ROOT_FOLDER, scene_name, file_name))
 
+def get_background_path_from_scene_for_template(scene_name: str): # have to do it relative to the 'templates'-folder
+    return '../../../../../' + get_path_to_file_in_scene(scene_name, 'background.jpeg')
 
 def get_background_from_scene(scene_name: str):
-    return handleFiles.get_data_from_file(get_path_to_file_in_scene(scene_name, 'background.png'))
+    return handleFiles.get_data_from_file(get_path_to_file_in_scene(scene_name, 'background.jpeg'))
 
 def get_texts_from_scene(scene_name: str):
     res = []
