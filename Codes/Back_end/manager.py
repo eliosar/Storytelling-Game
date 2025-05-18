@@ -1,3 +1,4 @@
+import base64
 from Back_end import handleFiles
 
 STORY_ROOT_FOLDER = 'Story'
@@ -161,11 +162,16 @@ def add_new_scene_from_dump_file():
 def get_path_to_file_in_scene(scene_name: str, file_name: str):
     return join_paths((STORY_ROOT_FOLDER, SCENES_ROOT_FOLDER, scene_name, file_name))
 
-def get_background_path_from_scene_for_template(scene_name: str): # have to do it relative to the 'templates'-folder
-    return '../../../../../' + get_path_to_file_in_scene(scene_name, 'background.jpeg')
+def get_background_from_scene_as_base64(scene_name: str):
+    bitstring = handleFiles.get_data_from_file(get_path_to_file_in_scene(scene_name, 'background.jpeg'))
 
-def get_background_from_scene(scene_name: str):
-    return handleFiles.get_data_from_file(get_path_to_file_in_scene(scene_name, 'background.jpeg'))
+    # Encode the bytes to a base64 string
+    base64_string = base64.b64encode(bitstring).decode("utf-8")
+
+    # Create the data URI
+    data_uri = f"data:image/jpeg;base64,{base64_string}"
+
+    return data_uri
 
 def get_texts_from_scene(scene_name: str):
     res = []
