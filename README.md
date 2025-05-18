@@ -7,9 +7,10 @@ Ordner "Story":
     Ordner "Scenes":
         Ordner "[Scenename]":
             Background Image as "background.png"
-            Textfile for "choice(1..n).json":
-                "choicename": as string
-                (next) "scenename": as string
+            Ordner "Choices":
+                Textfile for "choice(1..n).json":
+                    "choicename": as string
+                    (next) "scenename": as string
             Textfile for "status.json":
                 "status": "Beginning"/"Middle"/"End" of this story
             Ordner "Texts":

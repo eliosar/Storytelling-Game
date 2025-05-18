@@ -73,8 +73,22 @@ def is_dump_file_right():
                     if name == 'background.png':
                         usable_items.append(name)
 
-                    if name.count('choice') > 0 and name.count('.json') > 0:
-                        handle_dict_for_keys_and_str(['choicename', 'scenename'], usable_items, name, item)
+                    if name == 'Choices':
+                        subtract_count_because_of_wanted_folder += 1
+                        temp_items = handleFiles.getItems(item)
+                        
+                        if len(temp_items) == 0:
+                            is_folder_empty = True
+                            print('Found nothing in the Texts-folder')
+                        else:
+                            item_count += len(temp_items)
+
+                            for temp_item in temp_items:
+                                name = handleFiles.get_name_from_path(temp_item)
+
+                                print('------------------ Going through "' + name + '" ------------------')
+                                if name.count('choice') > 0 and name.count('.json') > 0:
+                                    handle_dict_for_keys_and_str(['choicename', 'scenename'], usable_items, name, temp_item)
                     
                     if name == 'status.json':
                         handle_dict_for_keys_and_str(['status'], usable_items, name, item)
@@ -100,7 +114,7 @@ def is_dump_file_right():
                 print('\nUsable items were: ' + str(usable_items))
                 if len(usable_items) < (item_count - subtract_count_because_of_wanted_folder): # have to substract every wanted folder (e.g. "Texts"-folder) inside the scenes folder
                     print('Not every element in the Scene-folder had been usable')
-
+            
             if len(usable_items) == (item_count - subtract_count_because_of_wanted_folder) and is_folder_empty == False:
                 return True
         else:
@@ -129,6 +143,7 @@ def is_dump_scenename_unique():
     for item in items:
         name = handleFiles.get_name_from_path(item)
         if name == dump_scenename:
+            print('scenename is not unique')
             return False
     
     return True
@@ -143,5 +158,26 @@ def add_new_scene_from_dump_file():
 
     handleFiles.move_file(from_path, to_path)
 
-def get_data_from_scene(scene_name: str):
-    return "0"
+def get_path_to_file_in_scene(scene_name: str, file_name: str):
+    return join_paths((STORY_ROOT_FOLDER, SCENES_ROOT_FOLDER, scene_name, file_name))
+
+
+def get_background_from_scene(scene_name: str):
+    return handleFiles.get_data_from_file(get_path_to_file_in_scene(scene_name, 'background.png'))
+
+def get_texts_from_scene(scene_name: str):
+    res = []
+    path = get_path_to_file_in_scene(scene_name, 'Texts')
+    for item in handleFiles.getItems(path):
+        res.append(handleFiles.get_file_data_as_dict(item))
+    return res
+
+def get_choices_from_scene(scene_name: str):
+    res = []
+    path = get_path_to_file_in_scene(scene_name, 'Choices')
+    for item in handleFiles.getItems(path):
+        res.append(handleFiles.get_file_data_as_dict(item))
+    return res
+
+def get_status_from_scene(scene_name: str):
+    return handleFiles.get_file_data_as_dict(get_path_to_file_in_scene(scene_name, 'status.json'))

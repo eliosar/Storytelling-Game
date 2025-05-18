@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from Back_end import manager, saveAndLoad
+from Back_end import manager
 import json
 import shutil
 
@@ -29,10 +29,21 @@ def is_folder(item):
 
 def get_file_data_as_dict(path: str):
     try:
-        return (json.loads(saveAndLoad.load_file(path)), True)
+        return (json.loads(get_data_from_file(path)), True)
     except:
         print('Wrong json syntax')
         return (None, False)
     
 def move_file(from_path: str, to_path: str):
     shutil.move(from_path, to_path)
+
+def get_data_from_file(file_path:str):
+    file_name = get_name_from_path(file_path)
+    data = []
+    
+    with open(file_path, 'rb') as file:
+        data = file.read()
+
+    print(file_name + ' loaded')
+
+    return data
