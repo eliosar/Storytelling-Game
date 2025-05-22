@@ -162,11 +162,16 @@ def add_new_scene_from_dump_file():
 def get_path_to_file_in_scene(scene_name: str, file_name: str):
     return join_paths((STORY_ROOT_FOLDER, SCENES_ROOT_FOLDER, scene_name, file_name))
 
-def get_background_from_scene_as_base64(scene_name: str):
-    bitstring = handleFiles.get_data_from_file(get_path_to_file_in_scene(scene_name, 'background.jpeg'))
+def get_background_image_in_scene(scene_name: str):
+    return handleFiles.get_data_from_file(get_path_to_file_in_scene(scene_name, 'background.jpeg'))
 
+def get_speeker_image(speeker_id: str):
+    path = join_paths((STORY_ROOT_FOLDER, SPEEKERS_FOLDER, speeker_id))
+    return handleFiles.get_data_from_file(path)
+
+def get_image_as_base64(image: bytes):
     # Encode the bytes to a base64 string
-    base64_string = base64.b64encode(bitstring).decode("utf-8")
+    base64_string = base64.b64encode(image).decode("utf-8")
 
     # Create the data URI
     data_uri = f"data:image/jpeg;base64,{base64_string}"
@@ -177,14 +182,14 @@ def get_texts_from_scene(scene_name: str):
     res = []
     path = get_path_to_file_in_scene(scene_name, 'Texts')
     for item in handleFiles.getItems(path):
-        res.append(handleFiles.get_file_data_as_dict(item))
+        res.append(handleFiles.get_file_data_as_dict(item)[0])
     return res
 
 def get_choices_from_scene(scene_name: str):
     res = []
     path = get_path_to_file_in_scene(scene_name, 'Choices')
     for item in handleFiles.getItems(path):
-        res.append(handleFiles.get_file_data_as_dict(item))
+        res.append(handleFiles.get_file_data_as_dict(item)[0])
     return res
 
 def get_status_from_scene(scene_name: str):

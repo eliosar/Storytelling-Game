@@ -7,9 +7,9 @@ app = Flask(__name__, template_folder='Front_end/templates/')
 def main_view():
     return mainFrame.start()
 
-@app.route('/scene/<sceneName>')
-def scene_view(sceneName: str):
-    return sceneFrame.start(sceneName)
+@app.route('/scene/<scene_name>')
+def scene_view(scene_name: str):
+    return sceneFrame.start(scene_name)
 
 def start():
     app.run(debug=True)

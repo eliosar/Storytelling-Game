@@ -32,7 +32,7 @@ Example "choice1.json":
 Example "text1.json":
 "
 {
-    "text": "Hi!\nHow are you?",
+    "text": "Hi! How are you?",
     "speekername": "I"
 }
 "
