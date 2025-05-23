@@ -192,5 +192,9 @@ def get_choices_from_scene(scene_name: str):
         res.append(handleFiles.get_file_data_as_dict(item)[0])
     return res
 
+def get_icon_image(name: str):
+    path = join_paths((STORY_ROOT_FOLDER, ICONS_FOLDER, name))
+    return handleFiles.get_data_from_file(path)
+
 def get_status_from_scene(scene_name: str):
     return handleFiles.get_file_data_as_dict(get_path_to_file_in_scene(scene_name, 'status.json'))

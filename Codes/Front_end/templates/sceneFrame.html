@@ -16,17 +16,29 @@
             z-index: -1;
         }
 
+        .HomeDiv {
+            width: 60px;
+            height: 60px;
+            margin-left: 3px;
+            margin-top: 3px;
+        }
+        .Home {
+            width: 60px;
+            height: 60px;
+            background-size: cover;
+            border: none;
+        }
+
         .ChoiceDiv {
             position: fixed;
             bottom: 0;
             right: 0;
             margin-bottom: 160px;
-            margin-right: 7px;
+            margin-right: 3px;
             width: 200px;
             display: flex;
             flex-direction: column;
         }
-
         .Choice {
             font-size: small;
             background: rgba(128, 128, 128, 0.5);
@@ -41,12 +53,12 @@
             bottom: 0;
             left: 0;
             margin-bottom: 160px;
-            margin-left: 7px;
+            margin-left: 3px;
         }
-
         .Speeker {
             width: 60px;
             height: 60px;
+            background-size: cover;
         }
 
         .TextDiv {
@@ -54,7 +66,6 @@
             bottom: 0;
             width: 100%;
         }
-
         .Text {
             background: rgba(128, 128, 128, 0.5);
             margin: 3px;
@@ -70,13 +81,18 @@
     </style>
 </head>
 
-<body>
+<body class="Body">
     <div class="BackgroundDiv">
         <div class="Background" style="background-image: url({{context[1]}});"></div>
     </div>
+    <div class="HomeDiv">
+        <form action="{{context[7][0]}}" method="get">
+            <input type="submit" value="" class="Home" style="background-image: url({{context[6][0]}});"/>
+        </form>
+    </div>
     <div class="ChoiceDiv">
-        {% for choiceName in context[2]%}
-        <form action="{{context[3][[loop.index]]}}">
+        {% for choiceName in context[2] %}
+        <form action="{{context[3][loop.index - 1]}}" method="get">
             <input type="submit" value="{{choiceName}}" class="Choice" />
         </form>
         {% endfor %}
