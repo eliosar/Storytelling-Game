@@ -9,7 +9,6 @@ def main_view():
 
 @app.route('/scene/<scene_name>', methods=['get'])
 def scene_view(scene_name: str):
-    print(scene_name)
     return sceneFrame.start(scene_name)
 
 def start():

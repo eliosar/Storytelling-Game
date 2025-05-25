@@ -16,7 +16,6 @@ def start(scene_name: str):
     for choice in choices:
         choices_as_str.append(choice["choicename"])
         choices_next_scene_url.append(manager.join_paths(('/scene', choice["scenename"])))
-        print(choices_next_scene_url)
 
     for text in texts:
         texts_as_str.append(text["text"])
@@ -27,7 +26,6 @@ def start(scene_name: str):
     icons.append(home_icon)
 
     other_urls.append('/')
-    # style="background-image: url({{context[6][0]}});"
     
     data = (scene_name, background_64, choices_as_str, choices_next_scene_url, texts_as_str, speekers, icons, other_urls)
     return render_template('sceneFrame.html', context=data)
