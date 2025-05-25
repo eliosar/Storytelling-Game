@@ -16,7 +16,7 @@ Ordner "Story":
             Ordner "Texts":
                 Textfile for "text(1..n).json":
                     "text": is the text
-                    "speekername": is the name of the speeker
+                    "speekername": is the name of the speeker (with .jpeg)
 
 In the "Dummies"-Folder, there are some (or at least one) "Scene"-Folder, which one can COPY into the "Dump"-Folder to test the filehandling.
 
@@ -33,6 +33,6 @@ Example "text1.json":
 "
 {
     "text": "Hi! How are you?",
-    "speekername": "I"
+    "speekername": "I.jpeg"
 }
 "
