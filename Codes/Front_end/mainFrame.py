@@ -1,2 +1,5 @@
+from Back_end import manager
+from flask import render_template
+
 def start():
-    pass # Have fun, Leni
+    return render_template('mainFrame.html', context=[])
