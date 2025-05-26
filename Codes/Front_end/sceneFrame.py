@@ -5,8 +5,6 @@ from Front_end import frontManager
 def start(scene_name: str):
     text_index = int(frontManager.get_cookie(frontManager.COOKIE_TEXT_INDEX_KEY, '0'))
     current_scene_cookie = frontManager.get_cookie(frontManager.COOKIE_CURRENT_SCENE_NAME_KEY, '')
-    print(text_index)
-    print(current_scene_cookie)
 
     if current_scene_cookie != scene_name:
         text_index = 0
