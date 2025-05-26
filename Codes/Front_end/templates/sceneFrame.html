@@ -74,6 +74,22 @@
             overflow: auto;
             height: 150px;
         }
+        .NextTextButtonForm {
+            width: 30px;
+            height: 30px;
+            position: fixed;
+            z-index: 1;
+            bottom: 0;
+            right: 0;
+            margin-right: 3px;
+            margin-bottom: 3px;
+        }
+        .NextTextButton {
+            width: 30px;
+            height: 30px;
+            background-size: cover;
+            border: none;
+        }
 
         .Body {
             margin: 0;
@@ -98,10 +114,15 @@
         {% endfor %}
     </div>
     <div class="SpeekerDiv">
-        <div class="Speeker" style="background-image: url({{context[5][0]}});"></div>
+        <div class="Speeker" style="background-image: url({{context[5][context[8]]}});"></div>
     </div>
     <div class="TextDiv">
-        <div class="Text">{{context[4][0]}}</div>
+        <div class="Text">{{context[4][context[8]]}}</div>
+        {% if context[9] is false %}
+        <form action="{{context[7][1]}}" method="get" class="NextTextButtonForm" >
+            <input type="submit" value="" class="NextTextButton" style="background-image: url({{context[6][1]}});"/>
+        </form>
+        {% endif %}
     </div>
 </body>
 
