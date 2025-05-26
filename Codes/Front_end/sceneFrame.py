@@ -4,10 +4,14 @@ from Front_end import frontManager
 
 def start(scene_name: str):
     text_index = int(frontManager.get_cookie(frontManager.COOKIE_TEXT_INDEX_KEY, '0'))
-    current_scene_cookie = frontManager.get_cookie(frontManager.COOKIE_CURRENT_SCENE_NAME_KEY, '')
+    current_scene_cookie: str = frontManager.get_cookie(frontManager.COOKIE_CURRENT_SCENE_NAME_KEY, '')
+    all_seen_scenes: list = frontManager.get_cookie(frontManager.COOKIE_ALL_SEEN_SCENES_KEY, [])
 
     if current_scene_cookie != scene_name:
         text_index = 0
+    
+    if all_seen_scenes.count(scene_name) == 0:
+        all_seen_scenes.append(scene_name)
 
     background_64 = manager.get_image_as_base64(manager.get_background_image_in_scene(scene_name))
     choices_as_str = []
@@ -47,5 +51,6 @@ def start(scene_name: str):
     resp = frontManager.create_response(render_template('sceneFrame.html', context=data))
     frontManager.set_cookie(frontManager.COOKIE_CURRENT_SCENE_NAME_KEY, scene_name, resp)
     frontManager.set_cookie(frontManager.COOKIE_TEXT_INDEX_KEY, str(text_index), resp)
+    frontManager.set_cookie(frontManager.COOKIE_ALL_SEEN_SCENES_KEY, all_seen_scenes, resp)
     
     return resp
