@@ -2,13 +2,33 @@
 <html>
     <head>
         <title>Storytelling Game</title>
+        <style>
+            body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            font-family: sans-serif;
+            }
+
+            .form-container {
+            text-align: center;
+            }
+
+            input {
+            padding: 20px;
+            font-size: 32px;
+            }
+        </style>
     </head>
 
     <body>
-        <div>
-        <form action="/scene/Scene1" method="get">
-            <input type="submit" value="Go to Scene 1" class="Home" />
-        </form>
-    </div>
+        <div class="form-container">
+            <form action="/scene/{{context[0]}}" method="get">
+                <input type="submit" value={{context[0]}} style="background-image: url({{context[1]}});" />
+            </form>
+        </div>
     </body>
 </html>
