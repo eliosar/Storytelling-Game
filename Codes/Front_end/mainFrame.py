@@ -27,13 +27,11 @@ def check_if_end_scene_exist():
 def write_Scene_in_MainFrame(scene_name: str):
     file = open(mainFrame_file, "a")
     scene_background = manager.get_image_as_base64(manager.get_background_image_in_scene(scene_name))
-    file.write("<td>")
     file.write("<div class='form-container'>")
     file.write(f"<form action='/scene/{scene_name}' method='get'>")
     file.write(f"<input type='submit' value={scene_name} style=background-image:url({scene_background}) />")
     file.write("</form>")
     file.write("</div>")
-    file.write("</td>")
     file.close()
 
 
@@ -46,10 +44,10 @@ def get_scene_names_from_scene_choices(scene_name: str):
 
 def generate_all_layers_in_tree(scene_names: list):
     file = open(mainFrame_file, "a")
-    file.write("<tr>")
+    
     for scene in scene_names:
         write_Scene_in_MainFrame(scene)
-    file.write("</tr>")
+
     choices_of_next_layer = []
     for scene in scene_names:
         if manager.get_status_from_scene(scene)[0].get("status") != "end":
@@ -72,11 +70,11 @@ def start():
 
     file = open(mainFrame_file, "a")
     file.write("<body>")
-    file.write("<table>")
+    file.write("<div class='form-container'>")
     file.close()
     generate_all_layers_in_tree([beginning_scene_name])
     file = open(mainFrame_file, "a")
-    file.write("</table>")
+    file.write("</div>")
     file.write("</body>")
     file.write("</html>")
     file.close()
