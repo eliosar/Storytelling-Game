@@ -198,3 +198,11 @@ def get_icon_image(name: str):
 
 def get_status_from_scene(scene_name: str):
     return handleFiles.get_file_data_as_dict(get_path_to_file_in_scene(scene_name, 'status.json'))
+
+def get_all_scene_names():
+    folder_paths = handleFiles.getItems(join_paths((STORY_ROOT_FOLDER, SCENES_ROOT_FOLDER)))
+    folder_names = []
+    for paths in folder_paths:
+        folder_names.append(handleFiles.get_name_from_path(paths))
+    return folder_names
+    
